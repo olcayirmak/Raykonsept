@@ -48,6 +48,15 @@ Roller: **yönetici** (hepsini görür) · **mimar** (kendi müşteri/projeleri)
 7. **`noindex, nofollow` kaybolmasın.** Site aramaya kapalı olmalı; yeni sayfa eklerken
    metadata'daki robots ayarını koru.
 
+8. **Logonun yanına marka adını METİN olarak yazma.** `assets/img/logo/logo.svg` bir
+   **wordmark**'tır — "RAYKONSEPT INTERIOR" yazısı logonun içinde vektör path olarak çizili
+   (bu yüzden `grep` ile metin bulunmaz). Yanına ayrıca "Raykonsept" yazarsan marka adı
+   ekranda iki kez görünür. Daha önce hem `dashboard.html` hem `login.html` bu hatayı
+   içeriyordu.
+
+9. **Logo tek renk `#1d1d1b`** (siyaha yakın). Koyu zemine koyarsan okunmaz;
+   `filter: brightness(0) invert(1)` ile beyaza çevir. SVG dosyasını değiştirme.
+
 ## Doğrulama kuralları
 
 Raporunu yazmadan önce kendin kontrol et:
