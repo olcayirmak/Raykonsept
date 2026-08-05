@@ -30,11 +30,37 @@ Mimarlık/İnşaat sektörü için modern admin dashboard.
 2. Sayfaları `src/pages/` içine oluştur
 3. `public/assets/` klasörünün yollarını kullan
 
-## Plesk Deployment
+## Deployment
 
-Plesk'te subdomain yapılandırıldı: `mimar.raykonsept.com`
+Sunucu: Plesk, subdomain `mimar.raykonsept.com`
 
-### Deploy Adımları
-1. Dosyaları `public/` klasöründen Plesk'teki hosting dizinine kopyala
-2. HTML dosyalarını `src/pages/` içinde geliştir
+- **Document Root:** `mimar.raykonsept.com/public`
+- **Repo konumu:** `/var/www/vhosts/raykonsept.com/mimar.raykonsept.com/`
+  (repo doğrudan domain dizinine clone edildi; `public/` docroot olarak servis edilir)
+- **Auth:** GitHub Deploy Key (SSH), sunucudaki `raykonsept` kullanıcısına ait
+
+> Not: Plesk'in kendi Git eklentisi bu sunucuda clone edemedi (`git/` dizini boş kalıyor),
+> bu yüzden manuel clone + cron pull kullanılıyor.
+
+### Otomatik deploy
+
+`raykonsept` kullanıcısının crontab'ında dakikalık pull çalışır:
+
+```
+* * * * * cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com && /usr/bin/git pull -q origin main
+```
+
+Yani `main`'e push yapmak yeterli; 1 dakika içinde canlıya yansır.
+
+### Manuel deploy (gerekirse)
+
+```bash
+cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com && sudo -u raykonsept git pull
+```
+
+## Erişim
+
+Demo giriş: `demo` / `demo` (login formunda hazır dolu gelir)
+
+Site aramaya kapalı: `robots.txt` + tüm sayfalarda `noindex, nofollow` meta etiketi.
 
