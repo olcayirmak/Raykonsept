@@ -10,5 +10,11 @@ dist/
 *.swo
 *~
 
-# Exclude UI-KIT (only needed assets are in public/)
+# Vuexy şablon paketi asla repoya girmez (155 MB'lık dosya GitHub limitini aşıyor).
+# Kaynak /Users/olcay/dev/Vuexy/ altında, repo dışında tutulur.
 UI-KIT/
+Vuexy/
+vuexy/
+
+# DeepSeek görev raporları — geçici, versiyonlanmaz
+rapor/
