@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.env
+.env.local
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Exclude UI-KIT (only needed assets are in public/)
+UI-KIT/
