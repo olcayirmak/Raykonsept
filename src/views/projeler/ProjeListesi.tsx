@@ -101,7 +101,13 @@ const ProjeListesi = () => {
             >
               {bilgi.getValue()}
             </Typography>
-            <Typography variant='body2'>
+            <Typography
+              variant='body2'
+              component={Link}
+              href={`/projeler/${bilgi.row.original.id}`}
+              color='text.secondary'
+              className='hover:underline'
+            >
               {bilgi.row.original.isTurleri.map(isTuruEtiketi).join(', ') || '—'}
             </Typography>
           </div>

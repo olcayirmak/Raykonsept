@@ -204,6 +204,9 @@ export const randevular: Randevu[] = [
   }
 ]
 
+export const projeninRandevulari = (projeId: string) =>
+  randevular.filter(randevu => randevu.projeId === projeId)
+
 export const randevuEkle = (yeni: Omit<Randevu, 'id'>) => {
   const randevu: Randevu = { ...yeni, id: `rnd-${randevular.length + 1}` }
 
