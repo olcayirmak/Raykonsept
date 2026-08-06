@@ -3,6 +3,8 @@
 
 // Type Imports
 import type { IsTuru, Kaynak, MekanTipi, MusteriTipi, Mimar, ProjeDurumu, YapiDurumu } from '@/types/musteriTypes'
+import type { OdemeTuru } from '@/types/odemeTypes'
+import type { RandevuDurumu, RandevuTipi } from '@/types/randevuTypes'
 
 export type Secenek<T> = { deger: T; etiket: string }
 
@@ -50,8 +52,37 @@ export const projeDurumlari: Secenek<ProjeDurumu>[] = [
   { deger: 'revizyon', etiket: 'Revizyon' },
   { deger: 'kesin-teklif', etiket: 'Kesin Teklif' },
   { deger: 'sozlesme-kapora', etiket: 'Sözleşme / Kapora' },
-  { deger: 'uretime-devredildi', etiket: 'Üretime Devredildi' }
+  { deger: 'uretime-devredildi', etiket: 'Üretime Devredildi' },
+  { deger: 'uretime-alindi', etiket: 'Üretime Alındı' },
+  { deger: 'hazirlaniyor', etiket: 'Hazırlanıyor' },
+  { deger: 'montaj-planlandi', etiket: 'Montaj Planlandı' },
+  { deger: 'tamamlandi', etiket: 'Tamamlandı' }
 ]
+
+export const randevuTipleri: Secenek<RandevuTipi>[] = [
+  { deger: 'ilk-gorusme', etiket: 'İlk Görüşme' },
+  { deger: 'kesif', etiket: 'Keşif' },
+  { deger: 'sunum', etiket: 'Sunum' },
+  { deger: 'montaj', etiket: 'Montaj' }
+]
+
+export const randevuDurumlari: Secenek<RandevuDurumu>[] = [
+  { deger: 'planlandi', etiket: 'Planlandı' },
+  { deger: 'tamamlandi', etiket: 'Tamamlandı' },
+  { deger: 'iptal', etiket: 'İptal' }
+]
+
+export const odemeTurleri: Secenek<OdemeTuru>[] = [
+  { deger: 'kapora', etiket: 'Kapora' },
+  { deger: 'ara-odeme', etiket: 'Ara Ödeme' },
+  { deger: 'son-odeme', etiket: 'Son Ödeme' }
+]
+
+export const randevuTipEtiketi = (tip: RandevuTipi) =>
+  randevuTipleri.find(secenek => secenek.deger === tip)?.etiket ?? tip
+
+export const odemeTuruEtiketi = (tur: OdemeTuru) =>
+  odemeTurleri.find(secenek => secenek.deger === tur)?.etiket ?? tur
 
 // Durum rozetlerinin rengi. Akışta ilerledikçe koyulaşır; üretime devir yeşil.
 export const projeDurumRenkleri: Record<ProjeDurumu, 'default' | 'info' | 'primary' | 'warning' | 'success'> = {
@@ -61,7 +92,11 @@ export const projeDurumRenkleri: Record<ProjeDurumu, 'default' | 'info' | 'prima
   revizyon: 'warning',
   'kesin-teklif': 'primary',
   'sozlesme-kapora': 'primary',
-  'uretime-devredildi': 'success'
+  'uretime-devredildi': 'success',
+  'uretime-alindi': 'success',
+  hazirlaniyor: 'success',
+  'montaj-planlandi': 'success',
+  tamamlandi: 'default'
 }
 
 export const projeDurumEtiketi = (durum: ProjeDurumu) =>

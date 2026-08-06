@@ -45,14 +45,14 @@ const NotFound = ({ mode }: { mode: SystemMode }) => {
           <Typography className='font-medium text-8xl' color='text.primary'>
             404
           </Typography>
-          <Typography variant='h4'>Page Not Found ⚠️</Typography>
-          <Typography>we couldn&#39;t find the page you are looking for.</Typography>
+          <Typography variant='h4'>Sayfa Bulunamadı ⚠️</Typography>
+          <Typography>Aradığınız sayfa mevcut değil ya da taşınmış olabilir.</Typography>
         </div>
         <Button href='/' component={Link} variant='contained'>
-          Back To Home
+          Panele Dön
         </Button>
         <img
-          alt='error-404-illustration'
+          alt='404 görseli'
           src='/images/illustrations/characters/1.png'
           className='object-cover bs-[400px] md:bs-[450px] lg:bs-[500px] mbs-10 md:mbs-14 lg:mbs-20'
         />

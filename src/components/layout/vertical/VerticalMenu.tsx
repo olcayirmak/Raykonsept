@@ -1,3 +1,5 @@
+'use client'
+
 // MUI Imports
 import { useTheme } from '@mui/material/styles'
 
@@ -8,7 +10,14 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Menu'
 
 // Component Imports
-import { Menu, MenuItem } from '@menu/vertical-menu'
+import { Menu } from '@menu/vertical-menu'
+import { GenerateVerticalMenu } from '@components/GenerateMenu'
+
+// Context Imports
+import { useAktifKullanici } from '@/contexts/rolContext'
+
+// Data Imports
+import verticalMenuData from '@/data/navigation/verticalMenuData'
 
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
@@ -38,6 +47,9 @@ const RenderExpandIcon = ({ open, transitionDuration }: RenderExpandIconProps) =
 const VerticalMenu = ({ scrollMenu }: Props) => {
   // Hooks
   const theme = useTheme()
+
+  // Context
+  const { aktifKullanici } = useAktifKullanici()
   const verticalNavOptions = useVerticalNav()
 
   // Vars
@@ -68,12 +80,7 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
         renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <MenuItem href='/home' icon={<i className='tabler-smart-home' />}>
-          Home
-        </MenuItem>
-        <MenuItem href='/about' icon={<i className='tabler-info-circle' />}>
-          About
-        </MenuItem>
+        <GenerateVerticalMenu menuData={verticalMenuData(aktifKullanici)} />
       </Menu>
       {/* <Menu
         popoutMenuOffset={{ mainAxis: 23 }}

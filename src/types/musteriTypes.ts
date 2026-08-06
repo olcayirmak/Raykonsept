@@ -8,8 +8,8 @@ export type YapiDurumu = 'yeni-yapi' | 'tadilat'
 
 export type Kaynak = 'instagram' | 'google' | 'tavsiye' | 'showroom' | 'fuar' | 'web-sitesi' | 'telefon'
 
-// Satış tarafı akışı. Üretime devredilen iş ÜretimDurumu ile devam eder.
-export type ProjeDurumu =
+// Satış tarafı akışı.
+export type SatisDurumu =
   | 'yeni-talep'
   | 'on-gorusme'
   | 'uc-boyut-cizim'
@@ -17,6 +17,11 @@ export type ProjeDurumu =
   | 'kesin-teklif'
   | 'sozlesme-kapora'
   | 'uretime-devredildi'
+
+// Üretime devredildikten sonrası. Atölye bu aşamaları yönetir.
+export type UretimDurumu = 'uretime-alindi' | 'hazirlaniyor' | 'montaj-planlandi' | 'tamamlandi'
+
+export type ProjeDurumu = SatisDurumu | UretimDurumu
 
 export type Musteri = {
   id: string
@@ -39,10 +44,16 @@ export type Musteri = {
 export type Proje = {
   id: string
   musteriId: string
+  // Satışı yapan mimar. Müşterinin sorumlu mimarından ayrı tutulur: müşteri
+  // devredilebilir, ama satışın kime yazıldığı değişmemeli.
+  mimarId: string
   isTurleri: IsTuru[]
   mekanTipi?: MekanTipi
   yapiDurumu?: YapiDurumu
+  // İlk görüşmedeki tahmin.
   tahminiButce?: number
+  // Sözleşme imzalanınca kesinleşen tutar. Ciro bu alandan hesaplanır.
+  sozlesmeTutari?: number
   istenenTeslim?: string
   durum: ProjeDurumu
   olusturmaTarihi: string

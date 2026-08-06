@@ -2,13 +2,13 @@
 import type { Metadata } from 'next'
 
 // Component Imports
-import Panel from '@views/panel/Panel'
+import ProjeListesi from '@views/projeler/ProjeListesi'
 
 export const metadata: Metadata = {
-  title: 'Panel',
+  title: 'Projeler',
   robots: { index: false, follow: false }
 }
 
-const Page = () => <Panel />
+const Page = () => <ProjeListesi />
 
 export default Page

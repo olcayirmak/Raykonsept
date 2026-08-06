@@ -27,6 +27,9 @@ import CustomTextField from '@core/components/mui/TextField'
 // Next Imports
 import { useRouter } from 'next/navigation'
 
+// Context Imports
+import { useAktifKullanici } from '@/contexts/rolContext'
+
 // Data Imports
 import {
   iller,
@@ -68,6 +71,9 @@ type Hatalar = Partial<Record<'ad' | 'telefon' | 'ePosta', string>>
 const YeniMusteriForm = () => {
   // Hooks
   const router = useRouter()
+
+  // Context
+  const { aktifKullanici } = useAktifKullanici()
 
   // States
   const [degerler, setDegerler] = useState<YeniMusteriFormDegerleri>(baslangicDegerleri)
@@ -130,6 +136,8 @@ const YeniMusteriForm = () => {
     if (isTurleri.length > 0) {
       projeEkle({
         musteriId: musteri.id,
+        // Satış, kaydı açan mimara yazılır; yönetici açıyorsa seçilen sorumlu mimara.
+        mimarId: aktifKullanici.rol === 'mimar' ? aktifKullanici.id : (musteri.sorumluMimarId ?? ''),
         isTurleri,
         mekanTipi,
         yapiDurumu,
