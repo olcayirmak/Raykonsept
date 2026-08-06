@@ -49,7 +49,7 @@ import {
 
 // Util Imports
 import { paraYaz, telefonBicimle } from '@/utils/bicim'
-import { fiyatGorebilir, musteriDuzenleyebilir, musteriListesiGorebilir } from '@/utils/yetki'
+import { fiyatGorebilir, musteriDuzenleyebilir } from '@/utils/yetki'
 
 const Alan = ({ etiket, deger }: { etiket: string; deger?: string }) => (
   <Grid size={{ xs: 12, sm: 6 }}>
@@ -73,18 +73,6 @@ const MusteriDetay = ({ musteriId }: { musteriId: string }) => {
   const musteri = useMemo(() => musteriBul(musteriId), [musteriId, surum])
   const projeler = useMemo(() => (musteri ? musterininProjeleri(musteri.id) : []), [musteri, surum])
   const fiyatAcik = fiyatGorebilir(aktifKullanici)
-
-  if (!musteriListesiGorebilir(aktifKullanici)) {
-    return (
-      <div className='flex flex-col gap-6'>
-        <RolSecici />
-        <Alert severity='warning'>
-          <AlertTitle>Bu ekran usta rolüne kapalı</AlertTitle>
-          Usta yalnızca kendisine atanan iş emirlerini görür.
-        </Alert>
-      </div>
-    )
-  }
 
   if (!musteri) {
     return (

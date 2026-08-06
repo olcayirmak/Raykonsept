@@ -12,16 +12,14 @@ export const kullanicilar: Kullanici[] = [
   { id: 'm-1', ad: 'Beste Yardımcı', rol: 'mimar' },
   { id: 'm-2', ad: 'Berna Uz', rol: 'mimar' },
   { id: 'm-3', ad: 'Kaan Güneş', rol: 'mimar' },
-  { id: 'a-1', ad: 'Yasin Yıldırım', rol: 'atolye-yoneticisi' },
-  // Usta adı henüz verilmedi; yer tutucu.
-  { id: 'u-1', ad: 'Usta 1', rol: 'usta' }
+  { id: 'a-1', ad: 'Yasin Yıldırım', rol: 'atolye-yoneticisi' }
 ]
 
 export const rolEtiketleri: Record<Rol, string> = {
   yonetici: 'Yönetici',
   mimar: 'Mimar',
-  'atolye-yoneticisi': 'Atölye Yöneticisi',
-  usta: 'Usta'
+  'atolye-yoneticisi': 'Atölye Yöneticisi'
+
 }
 
 export const kullaniciBul = (id: string) => kullanicilar.find(kullanici => kullanici.id === id)

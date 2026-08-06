@@ -8,24 +8,21 @@
 import type { Musteri, Proje } from '@/types/musteriTypes'
 import type { Kullanici } from '@/types/rolTypes'
 
-// Üretime devredilmiş sayılan proje durumları.
-const uretimDurumlari: Proje['durum'][] = ['uretime-devredildi']
+// Util Imports
+import { uretimdeMi } from '@/utils/surec'
 
-export const musteriListesiGorebilir = (kullanici: Kullanici) => kullanici.rol !== 'usta'
-
-// Mimar tüm müşterileri görür; atölye yöneticisi yalnızca üretime devredilmiş işi olanları.
+// Mimar tüm müşterileri görür; atölye yöneticisi yalnızca atölyeye düşmüş işi olanları.
+// Atölye müşteriyi görmeli: teslim adresi, iletişim ve montaj planı buna bağlı.
 export const gorunurMusteriler = (kullanici: Kullanici, musteriler: Musteri[], projeler: Proje[]) => {
-  if (kullanici.rol === 'yonetici' || kullanici.rol === 'mimar') return musteriler
-
   if (kullanici.rol === 'atolye-yoneticisi') {
     const uretimdekiMusteriIdleri = new Set(
-      projeler.filter(proje => uretimDurumlari.includes(proje.durum)).map(proje => proje.musteriId)
+      projeler.filter(proje => uretimdeMi(proje.durum)).map(proje => proje.musteriId)
     )
 
     return musteriler.filter(musteri => uretimdekiMusteriIdleri.has(musteri.id))
   }
 
-  return []
+  return musteriler
 }
 
 // Mimar yalnızca kendi müşterisini düzenler; başkasınınkini görür ama değiştiremez.

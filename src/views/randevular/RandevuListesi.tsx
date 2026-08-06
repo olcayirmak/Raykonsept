@@ -83,10 +83,8 @@ const RandevuListesi = () => {
 
         if (aktifKullanici.rol === 'mimar') return randevu.mimarId === aktifKullanici.id
 
-        // Üretim tarafı yalnız montaj randevularını görür.
-        if (aktifKullanici.rol === 'atolye-yoneticisi' || aktifKullanici.rol === 'usta') {
-          return randevu.tip === 'montaj'
-        }
+        // Atölye yalnız montaj randevularını görür.
+        if (aktifKullanici.rol === 'atolye-yoneticisi') return randevu.tip === 'montaj'
 
         return true
       })

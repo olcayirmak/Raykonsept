@@ -58,7 +58,7 @@ import { iller, kaynakEtiketi, mimarlar, projeDurumEtiketi, projeDurumRenkleri }
 
 // Util Imports
 import { paraYaz, telefonBicimle } from '@/utils/bicim'
-import { fiyatGorebilir, gorunurMusteriler, musteriDuzenleyebilir, musteriEkleyebilir, musteriListesiGorebilir } from '@/utils/yetki'
+import { fiyatGorebilir, gorunurMusteriler, musteriDuzenleyebilir, musteriEkleyebilir } from '@/utils/yetki'
 
 type MusteriSatiri = Musteri & {
   projeSayisi: number
@@ -81,7 +81,6 @@ const MusteriListesi = () => {
   const [siralama, setSiralama] = useState<SortingState>([])
 
   // Vars
-  const listeyiGorebilir = musteriListesiGorebilir(aktifKullanici)
   const fiyatAcik = fiyatGorebilir(aktifKullanici)
   const mimarMi = aktifKullanici.rol === 'mimar'
 
@@ -212,19 +211,6 @@ const MusteriListesi = () => {
     getPaginationRowModel: getPaginationRowModel(),
     initialState: { pagination: { pageSize: 10 } }
   })
-
-  if (!listeyiGorebilir) {
-    return (
-      <div className='flex flex-col gap-6'>
-        <RolSecici />
-        <Alert severity='warning'>
-          <AlertTitle>Bu ekran usta rolüne kapalı</AlertTitle>
-          Usta yalnızca kendisine atanan iş emirlerini görür. Müşteri listesine, fiyatlara ve teklif bilgilerine
-          erişimi yoktur.
-        </Alert>
-      </div>
-    )
-  }
 
   return (
     <div className='flex flex-col gap-6'>

@@ -70,7 +70,7 @@ const MailEkrani = () => {
 
   // Vars
   // Yazışmalar teklif, fiyat ve kapora bilgisi içerir; bu yüzden ekran satış
-  // tarafına özeldir. Üretim rolleri (atölye yöneticisi, usta) giremez.
+  // tarafına özeldir. Atölye yöneticisi giremez.
   const gorunurMu = fiyatGorebilir(aktifKullanici)
 
   // Role göre süzülmüş mail listesi
@@ -148,8 +148,8 @@ const MailEkrani = () => {
       <div className='flex flex-col gap-6'>
         <RolSecici />
         <Alert severity='warning'>
-          <AlertTitle>Bu ekran usta rolüne kapalı</AlertTitle>
-          Usta yalnızca kendisine atanan iş emirlerini görür.
+          <AlertTitle>Bu ekran üretim rollerine kapalı</AlertTitle>
+          Tahsilat, teklif ve fiyat bilgileri yalnızca yönetici ve mimarlar tarafından görülebilir.
         </Alert>
       </div>
     )

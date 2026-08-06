@@ -58,7 +58,7 @@ const Panel = () => {
 
   // Vars
   const fiyatAcik = fiyatGorebilir(aktifKullanici)
-  const uretimRolu = aktifKullanici.rol === 'atolye-yoneticisi' || aktifKullanici.rol === 'usta'
+  const uretimRolu = aktifKullanici.rol === 'atolye-yoneticisi'
 
   const ozet = useMemo(
     () => ({
@@ -100,8 +100,6 @@ const Panel = () => {
 
   // ——— Üretim rolleri: para içeren hiçbir kart oluşturulmaz ———
   if (uretimRolu) {
-    const usta = aktifKullanici.rol === 'usta'
-
     return (
       <Grid container spacing={6}>
         <Grid size={{ xs: 12 }}>
@@ -150,7 +148,7 @@ const Panel = () => {
         </Grid>
         <Grid size={{ xs: 12 }}>
           <ProjeListeKarti
-            baslik={usta ? 'İş Emirlerim' : 'Atölyedeki İşler'}
+            baslik='Atölyedeki İşler'
             projeler={ozet.uretimdekiler}
             fiyatGoster={false}
             bosMetin='Atölyeye devredilmiş iş yok.'

@@ -49,7 +49,7 @@ import {
 // Util Imports
 import { kisaTarihYaz, paraYaz, tarihSaatYaz } from '@/utils/bicim'
 import { bugun, satisDurumlari, uretimDurumlari } from '@/utils/ozet'
-import { fiyatGorebilir, musteriListesiGorebilir } from '@/utils/yetki'
+import { fiyatGorebilir } from '@/utils/yetki'
 
 const Alan = ({ etiket, deger }: { etiket: string; deger?: string }) => (
   <Grid size={{ xs: 12, sm: 6 }}>
@@ -70,19 +70,6 @@ const ProjeDetay = ({ projeId }: { projeId: string }) => {
   const odemeler = useMemo(() => (proje ? projeninOdemeleri(proje.id) : []), [proje])
   const randevular = useMemo(() => (proje ? projeninRandevulari(proje.id) : []), [proje])
   const fiyatAcik = fiyatGorebilir(aktifKullanici)
-
-  // usta rolüne kapalı
-  if (!musteriListesiGorebilir(aktifKullanici)) {
-    return (
-      <div className='flex flex-col gap-6'>
-        <RolSecici />
-        <Alert severity='warning'>
-          <AlertTitle>Bu ekran usta rolüne kapalı</AlertTitle>
-          Usta yalnızca kendisine atanan iş emirlerini görür.
-        </Alert>
-      </div>
-    )
-  }
 
   // Proje bulunamadı
   if (!proje) {

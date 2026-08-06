@@ -187,7 +187,7 @@ const ProjeListesi = () => {
         <CardHeader
           title='Projeler'
           subheader={
-            aktifKullanici.rol === 'atolye-yoneticisi' || aktifKullanici.rol === 'usta'
+            aktifKullanici.rol === 'atolye-yoneticisi'
               ? 'Yalnızca üretime devredilmiş işler listelenir.'
               : `${satirlar.length} proje`
           }

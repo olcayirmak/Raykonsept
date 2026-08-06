@@ -19,36 +19,18 @@ import { randevular } from '@/data/randevular'
 // Util Imports
 import { fiyatGorebilir } from '@/utils/yetki'
 
-export const satisDurumlari: SatisDurumu[] = [
-  'yeni-talep',
-  'on-gorusme',
-  'uc-boyut-cizim',
-  'revizyon',
-  'kesin-teklif',
-  'sozlesme-kapora',
-  'uretime-devredildi'
-]
+// Aşama listeleri surec.ts'te tek yerde; ekranlar bunları ozet üzerinden de okuyabilsin.
+import { satisDurumlari, uretimDurumlari, uretimdeMi } from '@/utils/surec'
 
-export const uretimDurumlari: UretimDurumu[] = [
-  'uretime-alindi',
-  'hazirlaniyor',
-  'montaj-planlandi',
-  'tamamlandi'
-]
-
-const uretimSeti = new Set<ProjeDurumu>(uretimDurumlari)
-
-export const uretimdeMi = (durum: ProjeDurumu) => uretimSeti.has(durum)
+export { satisDurumlari, uretimDurumlari, uretimdeMi }
 
 export const bugun = () => new Date().toISOString().slice(0, 10)
 
-// Mimar yalnız kendi satışını görür. Üretim rolleri proje listesinde üretimdekileri görür.
+// Mimar yalnız kendi satışını görür; atölye yöneticisi atölyeye düşmüş işleri.
 const gorunurProjeler = (kullanici: Kullanici): Proje[] => {
   if (kullanici.rol === 'mimar') return projeler.filter(proje => proje.mimarId === kullanici.id)
 
   if (kullanici.rol === 'atolye-yoneticisi') return projeler.filter(proje => uretimdeMi(proje.durum))
-
-  if (kullanici.rol === 'usta') return projeler.filter(proje => uretimdeMi(proje.durum))
 
   return projeler
 }
@@ -186,8 +168,8 @@ export const gecikenTahsilatToplami = (kullanici: Kullanici) =>
 export const gorunurRandevular = (kullanici: Kullanici): Randevu[] => {
   if (kullanici.rol === 'mimar') return randevular.filter(randevu => randevu.mimarId === kullanici.id)
 
-  // Üretim tarafı yalnız montaj randevularını görür.
-  if (kullanici.rol === 'atolye-yoneticisi' || kullanici.rol === 'usta') {
+  // Atölye yalnız montaj randevularını görür.
+  if (kullanici.rol === 'atolye-yoneticisi') {
     return randevular.filter(randevu => randevu.tip === 'montaj')
   }
 
