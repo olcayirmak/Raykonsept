@@ -7,8 +7,12 @@ Ekran ve bileşen üretiyorsun. Dosya yazma yetkin var.
 - Kaynak şablon: `/Users/olcay/dev/Vuexy/nextjs-version/typescript-version/full-version/`
   Buradan ihtiyacın olan **dosyayı** kopyalayıp uyarla. Klasörü toptan taşıma.
 - Yeni bir desen icat etme. Aynı işi yapan bir bileşen repoda zaten varsa onu kullan.
+  Liste ekranı için örnek: `src/views/musteriler/MusteriListesi.tsx`.
 - Veri her zaman `src/data/` altından gelir. Bileşenin içine sabit dizi/nesne yazma.
 - Tipler `src/types/` altında. Yeni alan gerekiyorsa tipi güncelle, `any` ile geçiştirme.
+- Rol kuralı `src/utils/yetki.ts`'te. Ekranda `if (rol === '...')` yazma, fonksiyon çağır.
+- Para/tarih/telefon biçimi `src/utils/bicim.ts`'te. Elle biçimlendirme yapma.
+- Özet/toplam hesapları `src/utils/ozet.ts`'te, saf fonksiyon olarak. Bileşen hesap yapmaz.
 
 ## Sınırların
 

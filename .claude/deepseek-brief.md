@@ -68,6 +68,60 @@ Roller: **yönetici** (hepsini görür) · **mimar** (kendi müşteri/projeleri)
     servis etmeye devam ediyor. Faz 1 boyunca erişilebilir kalmalı; temizlik kararı
     müşteri onayından sonra verilecek.
 
+## Projenin bugünkü hâli (kod yazmadan önce oku)
+
+Ekranlar: `/home` (panel) · `/musteriler` · `/musteriler/yeni` · `/musteriler/[id]` ·
+`/projeler` · `/randevular` · `/tahsilat`. Hepsi `src/app/(dashboard)/` altında;
+sayfa dosyası sadece metadata + view'ı çağırır, iş `src/views/<alan>/` içindedir.
+
+Uyman gereken katmanlar:
+
+| Katman | Dosya | Kural |
+|---|---|---|
+| Veri | `src/data/*.ts` | TÜM veri buradan. Bileşene dizi yazma. |
+| Tipler | `src/types/*.ts` | `Musteri`, `Proje`, `Randevu`, `Odeme`, `Kullanici` |
+| Yetki | `src/utils/yetki.ts` | Ekranda `if (rol === 'mimar')` YAZMA, buradaki fonksiyonu çağır |
+| Hesap | `src/utils/ozet.ts` | Panel/özet sayıları burada, saf fonksiyon. Widget hesap yapmaz. |
+| Biçim | `src/utils/bicim.ts` | `paraYaz`, `tarihYaz`, `telefonBicimle`. Elle biçimlendirme yok. |
+| Etiket | `src/data/secenekler.ts` | Türkçe etiketler ve durum renkleri |
+
+Roller: **yönetici** (hepsi) · **mimar** (tüm müşterileri görür, yalnız kendininkini
+düzenler) · **atölye yöneticisi** (yalnız üretime devredilmiş işler, fiyat görmez) ·
+**usta** (yalnız kendi iş emri). Faz 1'de oturum yok; aktif kullanıcı
+`src/contexts/rolContext.tsx` + ekranların üstündeki `RolSecici` ile seçilir.
+
+**Fiyat sütunu/kartı yetkisiz rolde GİZLENMEZ, HİÇ OLUŞTURULMAZ.** `fiyatGorebilir()`
+false ise o sütunu diziye ekleme. Faz 3'te bu gerçek bir güvenlik sınırı olacak.
+
+Yeni liste ekranı yazacaksan `src/views/musteriler/MusteriListesi.tsx` dosyasını
+örnek al: TanStack Table + arama + filtre + sayfalama + `RolSecici` deseni orada.
+
+## Tekrarlanmaması gereken hatalar (devam)
+
+12. **Sol menü `src/data/navigation/*.tsx` dosyasından gelir — ama gelmiyordu.**
+    Starter-kit'in `VerticalMenu.tsx` ve `HorizontalMenu.tsx` dosyaları menü
+    öğelerini kodun içine sabit yazmıştı ve `menuData` kullanan satır yorumdaydı.
+    Bağlandı. Menüye öğe eklerken data dosyasını düzenle; bileşene sabit `<MenuItem>`
+    yazma. Menü role göre süzülür (`verticalMenuData(kullanici)`).
+
+13. **ApexCharts sürümü 3.49.0 — v4 API'si kullanma.** Örnek: `legend.markers.size`
+    v4'te var, 3.49'da yok (`width`/`height` kullanılır). Sürümü `package.json`'dan
+    oku, ApexCharts belgelerinin son sürümüne bakıp yazma. Grafikler
+    `dynamic(() => import('@/libs/styles/AppReactApexCharts'))` ile yüklenir ve
+    `'use client'` olmak zorundadır.
+
+14. **Tarihe bağlı durumu SAKLAMA, türet.** Ödemenin "gecikti" bilgisi veritabanında
+    tutulmaz; `odemeTarihi` boş ve `vadeTarihi < bugün` ise gecikmiştir. Saklanan
+    bayrak zaman ilerledikçe yalan söyler.
+
+15. **Mock veri üretirken ay aritmetiğini 30 gün sayma.** `bugün - 30*n gün` takvim
+    aylarında kayar ve bir ayı tamamen atlar; grafikte boş ay olarak görünür.
+    Ay/yıl üzerinden hesapla. Ayrıca içinde bulunulan ay için **bugünü aşan tarih
+    üretme**.
+
+16. **`generated-icons.css` repoda yok, `postinstall` üretir.** Eksik görünmesi hata
+    değil. Silme, commit'leme.
+
 ## Doğrulama kuralları
 
 Raporunu yazmadan önce kendin kontrol et:
