@@ -28,7 +28,8 @@ const horizontalMenuData = (kullanici: Kullanici): HorizontalMenuDataType[] => {
 
   menu.push(
     { label: 'Projeler', href: '/projeler', icon: 'tabler-briefcase' },
-    { label: 'Randevular', href: '/randevular', icon: 'tabler-calendar-event' }
+    { label: 'Randevular', href: '/randevular', icon: 'tabler-calendar-event' },
+    { label: 'Ajanda', href: '/ajanda', icon: 'tabler-calendar' }
   )
 
   // Yazışmalar teklif/fiyat içerir; menü satış tarafına özel.

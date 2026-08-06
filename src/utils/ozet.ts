@@ -181,6 +181,19 @@ export const gecikenTahsilatToplami = (kullanici: Kullanici) =>
     .filter(satir => satir.gecikmeGunu > 0)
     .reduce((toplam, satir) => toplam + satir.odeme.tutar, 0)
 
+/** Kullanıcının görmeye yetkili olduğu randevular. Randevu görünürlük kuralı
+ *  YALNIZCA burada tanımlıdır; ekranlar bu kuralı kendi içinde tekrarlamaz. */
+export const gorunurRandevular = (kullanici: Kullanici): Randevu[] => {
+  if (kullanici.rol === 'mimar') return randevular.filter(randevu => randevu.mimarId === kullanici.id)
+
+  // Üretim tarafı yalnız montaj randevularını görür.
+  if (kullanici.rol === 'atolye-yoneticisi' || kullanici.rol === 'usta') {
+    return randevular.filter(randevu => randevu.tip === 'montaj')
+  }
+
+  return randevular
+}
+
 export type YaklasanRandevu = {
   randevu: Randevu
   musteri?: Musteri
@@ -191,20 +204,13 @@ export const yaklasanRandevular = (kullanici: Kullanici, gunSayisi = 14): Yaklas
   const simdi = bugun()
   const sinir = new Date(Date.parse(simdi) + gunSayisi * 86400000).toISOString().slice(0, 10)
 
-  return randevular
+  return gorunurRandevular(kullanici)
     .filter(randevu => {
       if (randevu.durum !== 'planlandi') return false
 
       const gun = randevu.tarih.slice(0, 10)
 
-      if (gun < simdi || gun > sinir) return false
-
-      if (kullanici.rol === 'mimar') return randevu.mimarId === kullanici.id
-
-      // Üretim tarafı yalnız montaj randevularını görür.
-      if (kullanici.rol === 'atolye-yoneticisi' || kullanici.rol === 'usta') return randevu.tip === 'montaj'
-
-      return true
+      return gun >= simdi && gun <= sinir
     })
     .sort((a, b) => a.tarih.localeCompare(b.tarih))
     .map(randevu => ({ randevu, musteri: musteriler.find(kayit => kayit.id === randevu.musteriId) }))
