@@ -31,6 +31,11 @@ const verticalMenuData = (kullanici: Kullanici): VerticalMenuDataType[] => {
     { label: 'Randevular', href: '/randevular', icon: 'tabler-calendar-event' }
   )
 
+  // Yazışmalar teklif/fiyat içerir; menü satış tarafına özel.
+  if (fiyatGorebilir(kullanici)) {
+    menu.push({ label: 'E-posta', href: '/mail', icon: 'tabler-mail' })
+  }
+
   if (fiyatGorebilir(kullanici)) {
     menu.push({ label: 'Tahsilat', href: '/tahsilat', icon: 'tabler-cash' })
   }
