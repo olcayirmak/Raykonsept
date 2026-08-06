@@ -28,7 +28,8 @@ limitini aşıyor).
 │   ├── @layouts/      # Yerleşim sistemi
 │   └── @menu/         # Menü sistemi
 ├── public/            # Statik dosyalar + eski Bootstrap sitesi (login.html, dashboard.html)
-├── server.js          # Plesk/Passenger başlangıç dosyası
+├── app.js             # Plesk/Passenger başlangıç dosyası
+├── deploy.sh          # Sunucuda çalışan deploy betiği
 └── .claude/           # DeepSeek delegasyon altyapısı
 ```
 
@@ -71,45 +72,36 @@ Ayrıca Faz 3'teki veritabanı ve gerçek kimlik doğrulama zaten bir sunucu ger
 `public/` altındaki eski Bootstrap sitesi Node sunucusundan servis edilmeye devam eder
 (`/login.html`, `/dashboard.html`, `/robots.txt` erişilebilir kalır) — geçiş kesintisiz.
 
-### Plesk kurulumu (bir kerelik)
+### Plesk yapılandırması
 
-Plesk panelinde **Websites & Domains → mimar.raykonsept.com → Node.js**:
+Aynı sunucudaki `takip.olcayirmak.com` da bir Next.js uygulaması; oradaki çalışan
+kurulum örnek alındı.
 
 | Ayar | Değer |
 |---|---|
-| Document Root | `/` (repo kökü — artık `public` değil) |
+| Document Root | repo kökü (`.../mimar.raykonsept.com`) — artık `public` değil |
 | Application Root | `/var/www/vhosts/raykonsept.com/mimar.raykonsept.com` |
-| Application Startup File | `server.js` |
+| Application Startup File | `app.js` |
 | Application Mode | `production` |
-| Node.js Version | 20 veya üzeri |
+| Node.js | `/opt/plesk/node/20` |
 
-Sonra sunucuda:
+Passenger `listen()` çağrısını yakalayıp kendi soketine bağlar; `PORT` değeri önemsizdir.
 
-```bash
-cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com
-npm ci
-npm run build
-```
+### Deploy
 
-Plesk'te **Restart App**'e bas.
-
-### Deploy (her değişiklikte)
-
-`git pull` tek başına artık yetmez — derleme gerekiyor. Dakikalık cron kaldırılmalı,
-yerine bu adımlar gelir:
+`git pull` tek başına yetmez — derleme gerekiyor. Sunucuda:
 
 ```bash
 cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com
-sudo -u raykonsept git pull origin main
-sudo -u raykonsept npm ci
-sudo -u raykonsept npm run build
+sudo -u raykonsept ./deploy.sh
 ```
 
-Ardından Plesk'ten **Restart App**.
+Betik `git pull` → `npm ci` → `npm run build` → `touch tmp/restart.txt` yapar.
+`set -e` sayesinde bir adım patlarsa build ve restart atlanır; Passenger bir önceki
+sürümü servis etmeye devam eder, site ayakta kalır.
 
-> Uyarı: Eski dakikalık `git pull` cron'u çalışır durumda kalırsa, derlenmemiş kod
-> çekilir ve çalışan uygulamayla derlenmiş çıktı uyuşmaz. Node'a geçerken o satır
-> crontab'dan silinmeli.
+> Dakikalık `git pull` cron'u **kaldırıldı** (yedeği: `/root/raykonsept-crontab.yedek`).
+> Geri konulmamalı: derlenmemiş kod çeker, çalışan uygulamayla derlenmiş çıktı uyuşmaz.
 
 ## Erişim
 
