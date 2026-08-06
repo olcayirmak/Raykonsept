@@ -122,6 +122,20 @@ Yeni liste ekranı yazacaksan `src/views/musteriler/MusteriListesi.tsx` dosyası
 16. **`generated-icons.css` repoda yok, `postinstall` üretir.** Eksik görünmesi hata
     değil. Silme, commit'leme.
 
+17. **Rol kuralını EKRANA KOPYALAMA.** Üç görevde iki kez yapıldı ve ikisi de hataya
+    yol açtı: bir kez üretim rolüne fiyat içeren yazışmalar açıldı, bir kez randevu
+    süzme kuralı ekrana kopyalandı. Kural `src/utils/yetki.ts` ve `src/utils/ozet.ts`
+    içindedir. İhtiyacın olan süzme orada yoksa **oraya fonksiyon ekle**, ekranda
+    `if (kullanici.rol === '...')` yazma.
+
+18. **Ustalar sistemi kullanmıyor.** Rol seti: yönetici · mimar · atölye yöneticisi.
+    Atölye yöneticisi müşteri bilgisi, teknik çizim, teslim tarihi ve satan mimarı
+    görür; **fiyat ve proje bedelini görmez**. İşi A4 çıktı ya da sözlü dağıtır.
+
+19. **Çalıştırmadığın komuta ✅ koyma.** `npx tsc --noEmit` ve `npm run build`
+    çalıştıramıyorsan raporda "çalıştıramadım" yaz. Uyum tablosuna ✅ koyup altta
+    "onay bekliyor" yazmak çelişki; rapor bağımsız olarak kontrol ediliyor.
+
 ## Doğrulama kuralları
 
 Raporunu yazmadan önce kendin kontrol et:
