@@ -18,3 +18,12 @@ vuexy/
 
 # DeepSeek görev raporları — geçici, versiyonlanmaz
 rapor/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# postinstall (npm run build:icons) tarafından üretilir; yeniden üretilebilir olduğu doğrulandı
+src/assets/iconify-icons/generated-icons.css

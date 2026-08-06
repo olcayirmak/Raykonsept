@@ -57,6 +57,17 @@ Roller: **yönetici** (hepsini görür) · **mimar** (kendi müşteri/projeleri)
 9. **Logo tek renk `#1d1d1b`** (siyaha yakın). Koyu zemine koyarsan okunmaz;
    `filter: brightness(0) invert(1)` ile beyaza çevir. SVG dosyasını değiştirme.
 
+10. **`output: 'export'` (statik export) önerme, çalışmaz.** Denendi ve iki yerde kırılıyor:
+    `src/@core/utils/serverHelpers.ts` tema modunu `cookies()` ile okuyor ve bu kök
+    layout'ta çağrılıyor (`cookies()` statik export'ta yasak); ayrıca `next.config.ts`
+    içindeki `redirects()` sunucu tarafı bir özellik. Uygulama Plesk'te Node.js olarak
+    çalışıyor, başlangıç dosyası kökteki `server.js`.
+
+11. **`public/` altındaki eski Bootstrap sitesi silinmedi, bilerek duruyor.**
+    `login.html`, `dashboard.html`, `assets/`, `libs/` — Next bunları statik olarak
+    servis etmeye devam ediyor. Faz 1 boyunca erişilebilir kalmalı; temizlik kararı
+    müşteri onayından sonra verilecek.
+
 ## Doğrulama kuralları
 
 Raporunu yazmadan önce kendin kontrol et:
