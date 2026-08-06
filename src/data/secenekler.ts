@@ -107,9 +107,9 @@ export const isTuruEtiketi = (isTuru: IsTuru) => isTurleri.find(secenek => secen
 export const kaynakEtiketi = (kaynak: Kaynak) => kaynaklar.find(secenek => secenek.deger === kaynak)?.etiket ?? kaynak
 
 export const mimarlar: Mimar[] = [
-  { id: 'm-1', ad: 'Elif Yıldırım' },
-  { id: 'm-2', ad: 'Burak Şahin' },
-  { id: 'm-3', ad: 'Deniz Aksoy' }
+  { id: 'm-1', ad: 'Beste Yardımcı' },
+  { id: 'm-2', ad: 'Berna Uz' },
+  { id: 'm-3', ad: 'Kaan Güneş' }
 ]
 
 export const iller: string[] = [
