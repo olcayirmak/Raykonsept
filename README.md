@@ -93,7 +93,11 @@ Passenger `listen()` çağrısını yakalayıp kendi soketine bağlar; `PORT` de
 bağlanıp `deploy.sh` çalıştırır, sonra canlının 200 döndüğünü doğrular.
 Actions sekmesindeki **Run workflow** ile elle de tetiklenebilir.
 
-Gereken repo secret'ları: `SSH_HOST`, `SSH_USER`, `SSH_KEY` (`SSH_PORT` isteğe bağlı).
+Gereken repo secret'ları: `PLESK_SSH_HOST`, `PLESK_SSH_USER`, `PLESK_SSH_KEY`
+(`PLESK_SSH_PORT` isteğe bağlı).
+
+> Repo **herkese açık**: sunucu adresi ve kullanıcı adı workflow dosyasına
+> yazılmaz, secret olarak tutulur.
 
 Aynı anda iki deploy çalışmaz (`concurrency`): `next build` `.next/lock` alır,
 ikinci koşu "Unable to acquire lock" ile düşer.

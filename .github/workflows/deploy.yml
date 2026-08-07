@@ -21,10 +21,10 @@ jobs:
       - name: Sunucuda deploy.sh çalıştır
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
+          host: ${{ secrets.PLESK_SSH_HOST }}
+          username: ${{ secrets.PLESK_SSH_USER }}
+          key: ${{ secrets.PLESK_SSH_KEY }}
+          port: ${{ secrets.PLESK_SSH_PORT || 22 }}
           # next build birkaç dakika sürebiliyor; varsayılan 10dk sınırı yetmiyor.
           command_timeout: 20m
           script: |
