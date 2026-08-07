@@ -97,7 +97,7 @@ const StyledSubMenu = styled.li<StyledSubMenuProps>`
   margin-block-start: 4px;
 
   &.${menuClasses.open} > .${menuClasses.button} {
-    background-color: #f3f3f3;
+    background-color: var(--mui-palette-action-hover);
   }
 
   ${({ menuItemStyles }) => menuItemStyles};

@@ -199,7 +199,16 @@ const MailEkrani = () => {
                     <Badge
                       badgeContent={okunmamis}
                       color={secili ? 'default' : 'primary'}
-                      slotProps={{ badge: { style: secili ? { backgroundColor: 'rgba(255,255,255,0.2)', color: '#fff' } : {} } }}
+                      slotProps={{
+                        badge: {
+                          style: secili
+                            ? {
+                                backgroundColor: 'rgb(0 0 0 / 0.16)',
+                                color: 'var(--mui-palette-primary-contrastText)'
+                              }
+                            : {}
+                        }
+                      }}
                     />
                   )}
                 </div>

@@ -29,7 +29,7 @@ const StyledSubMenuContent = styled.div<SubMenuContentProps>`
       border-radius: 4px;
       block-size: auto !important;
       transition: none !important;
-      background-color: white;
+      background-color: var(--mui-palette-background-paper);
       box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
      `
       : `

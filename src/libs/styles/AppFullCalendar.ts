@@ -12,6 +12,15 @@ const AppFullCalendar = styled('div')(({ theme }: { theme: Theme }) => ({
   '& .fc': {
     zIndex: 1,
 
+    // FullCalendar kendi CSS degiskenlerini kullanir ve varsayilanlari acik temaya gore
+    // sabittir (--fc-page-bg-color: #fff). Yapiskan gun basligi seridi bu degiskeni
+    // kullandigi icin koyu temada beyaz serit olarak kaliyordu; tema jetonlarina baglandi.
+    '--fc-page-bg-color': 'var(--mui-palette-background-paper)',
+    '--fc-neutral-bg-color': 'var(--mui-palette-action-hover)',
+    '--fc-border-color': 'var(--mui-palette-divider)',
+    '--fc-today-bg-color': 'var(--mui-palette-primary-lighterOpacity)',
+    '--fc-list-event-hover-bg-color': 'var(--mui-palette-action-hover)',
+
     '.fc-col-header, .fc-daygrid-body, .fc-scrollgrid-sync-table, .fc-timegrid-body, .fc-timegrid-body table': {
       width: '100% !important'
     },

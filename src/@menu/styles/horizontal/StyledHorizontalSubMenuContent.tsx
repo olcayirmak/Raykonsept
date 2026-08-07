@@ -10,7 +10,7 @@ const StyledHorizontalSubMenuContent = styled.div<SubMenuContentProps>`
   box-shadow: 0 9px 28px 8px #00000011;
   outline: none;
   box-sizing: border-box;
-  background-color: white;
+  background-color: var(--mui-palette-background-paper);
   overflow: hidden;
 
   ${({ browserScroll, top }) =>

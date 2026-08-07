@@ -54,7 +54,7 @@ const VerticalNav = (props: VerticalNavProps) => {
     width = 260,
     collapsedWidth = 80,
     defaultCollapsed = false,
-    backgroundColor = 'white',
+    backgroundColor = 'var(--mui-palette-background-paper)',
     backgroundImage,
     breakpoint = 'lg',
     customBreakpoint,

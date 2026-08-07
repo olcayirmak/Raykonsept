@@ -103,7 +103,7 @@ const StyledSubMenu = styled.li<StyledSubMenuProps>`
   ${({ level }) => level === 0 && { borderRadius: '6px', overflow: 'hidden' }}
 
   &.${menuClasses.open} > .${menuClasses.button} {
-    background-color: #f3f3f3;
+    background-color: var(--mui-palette-action-hover);
   }
 
   ${({ menuItemStyles }) => menuItemStyles};

@@ -54,7 +54,7 @@ const MimarSiralamasi = ({ siralama, vurgulananMimarId, baslik = 'En Çok Satı�
                 <LinearProgress
                   variant='determinate'
                   value={enYuksek ? Math.round((satir.tutar / enYuksek) * 100) : 0}
-                  color={kendisi ? 'primary' : 'secondary'}
+                  color='primary'
                   className='bs-2'
                 />
                 <Typography variant='body2'>{satir.adet} iş</Typography>
