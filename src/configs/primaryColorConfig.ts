@@ -5,37 +5,38 @@ export type PrimaryColorConfig = {
   dark?: string
 }
 
-// Primary color config object
+// Ray Konsept marka paleti. İlk kayıt varsayılan ana renktir (altın sarısı).
+// Diğerleri tema özelleştiricideki alternatifler; hepsi siyah/gri/bej ekseninde tutuldu.
 const primaryColorConfig: PrimaryColorConfig[] = [
   {
     name: 'primary-1',
-    light: '#8F85F3',
-    main: '#7367F0',
-    dark: '#675DD8'
+    light: '#D6B672',
+    main: '#C79E44',
+    dark: '#A17B2C'
   },
   {
     name: 'primary-2',
-    light: '#4EB0B1',
-    main: '#0D9394',
-    dark: '#096B6C'
+    light: '#E3DCD7',
+    main: '#D7CCC5',
+    dark: '#B3A49B'
   },
   {
     name: 'primary-3',
-    light: '#FFC25A',
-    main: '#FFAB1D',
-    dark: '#BA7D15'
+    light: '#6C757D',
+    main: '#495057',
+    dark: '#343A40'
   },
   {
     name: 'primary-4',
-    light: '#F0718D',
-    main: '#EB3D63',
-    dark: '#AC2D48'
+    light: '#3A3A3A',
+    main: '#1A1A1A',
+    dark: '#000000'
   },
   {
     name: 'primary-5',
-    light: '#5CAFF1',
-    main: '#2092EC',
-    dark: '#176BAC'
+    light: '#B08D6B',
+    main: '#8C6B4A',
+    dark: '#664D34'
   }
 ]
 

@@ -16,7 +16,7 @@ import type { ThemeColor } from '@core/types'
 // Component Imports
 import CustomAvatar from '@core/components/mui/Avatar'
 
-// Vuexy'nin card-statistics/HorizontalWithBorder bileşeninden uyarlandı.
+// Şablonun card-statistics/HorizontalWithBorder bileşeninden uyarlandı.
 // Fark: `stats` metin alır (₺ biçimli tutar geçirebilmek için) ve karşılaştırma
 // metni Türkçe ve dışarıdan verilebilir.
 

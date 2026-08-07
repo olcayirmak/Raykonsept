@@ -37,11 +37,12 @@ const theme = (settings: Settings, mode: SystemMode, direction: Theme['direction
     shadows: shadows(mode),
     typography: typography(public_sans.style.fontFamily),
     customShadows: customShadows(mode),
+    // Ray Konsept: nötr siyah/gri ekseni (mor tonlu şablon değerleri kaldırıldı)
     mainColorChannels: {
-      light: '47 43 61',
-      dark: '225 222 245',
-      lightShadow: '47 43 61',
-      darkShadow: '19 17 32'
+      light: '33 37 41', // #212529
+      dark: '248 249 250', // #F8F9FA
+      lightShadow: '33 37 41',
+      darkShadow: '10 11 13'
     }
   } as Theme
 }
