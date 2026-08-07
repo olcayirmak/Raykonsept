@@ -19,7 +19,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.PLESK_SSH_KEY }}" > ~/.ssh/plesk_key
           chmod 600 ~/.ssh/plesk_key
-          ssh -i ~/.ssh/plesk_key -o StrictHostKeyChecking=no ${{ secrets.PLESK_SSH_USER }}@${{ secrets.PLESK_SSH_HOST }} "cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com && ./deploy.sh"
+          ssh -i ~/.ssh/plesk_key -o StrictHostKeyChecking=no root@${{ secrets.PLESK_SSH_HOST }} "cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com && sudo -u raykonsept ./deploy.sh"
 
       - name: Verify deployment
         run: |
