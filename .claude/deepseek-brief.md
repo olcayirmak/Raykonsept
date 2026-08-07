@@ -48,14 +48,21 @@ Roller: **yönetici** (hepsini görür) · **mimar** (kendi müşteri/projeleri)
 7. **`noindex, nofollow` kaybolmasın.** Site aramaya kapalı olmalı; yeni sayfa eklerken
    metadata'daki robots ayarını koru.
 
-8. **Logonun yanına marka adını METİN olarak yazma.** `assets/img/logo/logo.svg` bir
-   **wordmark**'tır — "RAYKONSEPT INTERIOR" yazısı logonun içinde vektör path olarak çizili
-   (bu yüzden `grep` ile metin bulunmaz). Yanına ayrıca "Raykonsept" yazarsan marka adı
-   ekranda iki kez görünür. Daha önce hem `dashboard.html` hem `login.html` bu hatayı
-   içeriyordu.
+8. **Wordmark'ın yanına marka adını METİN olarak yazma.**
+   `public/images/logo/logo-light.svg` ve `logo-dark.svg` **wordmark**'tır — "RAYKONSEPT
+   INTERIOR" yazısı logonun içinde vektör path olarak çizili (bu yüzden `grep` ile metin
+   bulunmaz). Yanına ayrıca "Ray Konsept" yazarsan marka adı ekranda iki kez görünür.
+   Daha önce hem `dashboard.html` hem `login.html` bu hatayı içeriyordu.
+   Not: `src/@core/svg/Logo.tsx` bunun istisnası — o **wordmark değil**, yalnız "R"
+   amblemi; yanındaki metin (`themeConfig.templateName`) bilerek duruyor, kaldırma.
 
-9. **Logo tek renk `#1d1d1b`** (siyaha yakın). Koyu zemine koyarsan okunmaz;
-   `filter: brightness(0) invert(1)` ile beyaza çevir. SVG dosyasını değiştirme.
+9. **Logo dosyaları tek renktir ve tema başına ayrıdır.**
+   `public/images/logo/` içinde: `logo-light.svg` / `logo-icon-light.svg` (`#1d1d1b`,
+   şeffaf zemin — açık tema) ve `logo-dark.svg` / `logo-icon-dark.svg` (beyaz, ama
+   içinde **tam sayfa siyah `<rect>` var** — açık zemine koyarsan siyah blok çıkar).
+   SVG dosyalarını değiştirme. React tarafında dosya kullanma gereği yok:
+   `src/@core/svg/Logo.tsx` amblemi `fill='currentColor'` ile çizer, iki temada da
+   kendiliğinden doğru renkte gelir.
 
 10. **`output: 'export'` (statik export) önerme, çalışmaz.** Denendi ve iki yerde kırılıyor:
     `src/@core/utils/serverHelpers.ts` tema modunu `cookies()` ile okuyor ve bu kök
@@ -135,6 +142,22 @@ Yeni liste ekranı yazacaksan `src/views/musteriler/MusteriListesi.tsx` dosyası
 19. **Çalıştırmadığın komuta ✅ koyma.** `npx tsc --noEmit` ve `npm run build`
     çalıştıramıyorsan raporda "çalıştıramadım" yaz. Uyum tablosuna ✅ koyup altta
     "onay bekliyor" yazmak çelişki; rapor bağımsız olarak kontrol ediliyor.
+
+20. **Renk paleti tema katmanından gelir, ekrana hex YAZILMAZ.** Vuexy'nin mor paleti
+    2026-08-07'de tamamen kaldırıldı. Marka paleti: primary `#C79E44` (altın,
+    `contrastText: '#1A1A1A'` — altın üstüne beyaz yazı kontrast testini geçmiyor),
+    secondary `#495057`, açık zemin `#F8F9FA`/`#FFFFFF`, koyu zemin `#17191C`/`#212529`,
+    bej `#D7CCC5`. Tanımlar yalnızca üç dosyada: `src/@core/theme/colorSchemes.ts`,
+    `src/@core/theme/index.ts` (`mainColorChannels` — metin/ayraç/gölge ekseni buradan
+    türer), `src/configs/primaryColorConfig.ts`. Bileşene `#7367F0` gibi sabit renk
+    yazma; `var(--mui-palette-*)` ya da `theme.palette.*` kullan.
+
+21. **Durum renkleri (success/error/warning/info) markaya çekilmedi, bilerek duruyor.**
+    Yeşil/kırmızı/turuncu/camgöbeği anlamsal; "mor kalmış" gibi bunları da bulgu
+    olarak raporlama.
+
+22. **`public/images/illustrations/auth/` altındaki PNG'ler hâlâ Vuexy'nin mor
+    karakterli görselleri.** Bilinen durum, açık iş. Bunu yeni bulgu diye yazma.
 
 ## Doğrulama kuralları
 

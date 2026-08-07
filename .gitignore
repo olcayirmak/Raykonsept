@@ -27,3 +27,6 @@ next-env.d.ts
 
 # postinstall (npm run build:icons) tarafından üretilir; yeniden üretilebilir olduğu doğrulandı
 src/assets/iconify-icons/generated-icons.css
+
+# VS Code çok-köklü workspace dosyası repo dışında: /Users/olcay/dev/projeler.code-workspace
+*.code-workspace
