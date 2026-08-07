@@ -3,7 +3,7 @@ import type { VerticalMenuDataType } from '@/types/menuTypes'
 import type { Kullanici } from '@/types/rolTypes'
 
 // Util Imports
-import { fiyatGorebilir } from '@/utils/yetki'
+import { fiyatGorebilir, whatsappGorebilir } from '@/utils/yetki'
 
 // Menü role göre süzülür: e-posta ve tahsilat satış tarafına özeldir, atölye görmez.
 const verticalMenuData = (kullanici: Kullanici): VerticalMenuDataType[] => {
@@ -27,6 +27,10 @@ const verticalMenuData = (kullanici: Kullanici): VerticalMenuDataType[] => {
       { label: 'E-posta', href: '/mail', icon: 'tabler-mail' },
       { label: 'Tahsilat', href: '/tahsilat', icon: 'tabler-cash' }
     )
+  }
+
+  if (whatsappGorebilir(kullanici)) {
+    menu.push({ label: 'WhatsApp', href: '/whatsapp', icon: 'tabler-brand-whatsapp' })
   }
 
   return menu

@@ -41,6 +41,11 @@ export const musteriEkleyebilir = (kullanici: Kullanici) =>
 export const fiyatGorebilir = (kullanici: Kullanici) =>
   kullanici.rol === 'yonetici' || kullanici.rol === 'mimar'
 
+// WhatsApp şirket hattı satış tarafına aittir: yönetici ve mimarlar görür.
+// Atölye yöneticisi görmez — müşteriyle fiyat/teklif yazışması buradan geçer.
+export const whatsappGorebilir = (kullanici: Kullanici) =>
+  kullanici.rol === 'yonetici' || kullanici.rol === 'mimar'
+
 // Prim kişisel özlük bilgisidir; mimar yalnızca kendi primini görür.
 export const primGorebilir = (kullanici: Kullanici, mimarId: string) => {
   if (kullanici.rol === 'yonetici') return true

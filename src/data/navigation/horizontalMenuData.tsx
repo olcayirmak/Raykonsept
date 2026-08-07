@@ -3,7 +3,7 @@ import type { HorizontalMenuDataType } from '@/types/menuTypes'
 import type { Kullanici } from '@/types/rolTypes'
 
 // Util Imports
-import { fiyatGorebilir } from '@/utils/yetki'
+import { fiyatGorebilir, whatsappGorebilir } from '@/utils/yetki'
 
 // Dikey menüyle aynı kurallar; bkz. verticalMenuData.tsx
 const horizontalMenuData = (kullanici: Kullanici): HorizontalMenuDataType[] => {
@@ -27,6 +27,10 @@ const horizontalMenuData = (kullanici: Kullanici): HorizontalMenuDataType[] => {
       { label: 'E-posta', href: '/mail', icon: 'tabler-mail' },
       { label: 'Tahsilat', href: '/tahsilat', icon: 'tabler-cash' }
     )
+  }
+
+  if (whatsappGorebilir(kullanici)) {
+    menu.push({ label: 'WhatsApp', href: '/whatsapp', icon: 'tabler-brand-whatsapp' })
   }
 
   return menu
