@@ -89,7 +89,16 @@ Passenger `listen()` çağrısını yakalayıp kendi soketine bağlar; `PORT` de
 
 ### Deploy
 
-`git pull` tek başına yetmez — derleme gerekiyor. Sunucuda:
+`main`'e push → GitHub Actions (`.github/workflows/deploy.yml`) sunucuya SSH ile
+bağlanıp `deploy.sh` çalıştırır, sonra canlının 200 döndüğünü doğrular.
+Actions sekmesindeki **Run workflow** ile elle de tetiklenebilir.
+
+Gereken repo secret'ları: `SSH_HOST`, `SSH_USER`, `SSH_KEY` (`SSH_PORT` isteğe bağlı).
+
+Aynı anda iki deploy çalışmaz (`concurrency`): `next build` `.next/lock` alır,
+ikinci koşu "Unable to acquire lock" ile düşer.
+
+Gerekirse sunucuda elle:
 
 ```bash
 cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com
@@ -99,6 +108,14 @@ sudo -u raykonsept ./deploy.sh
 Betik `git pull` → `npm ci` → `npm run build` → `touch tmp/restart.txt` yapar.
 `set -e` sayesinde bir adım patlarsa build ve restart atlanır; Passenger bir önceki
 sürümü servis etmeye devam eder, site ayakta kalır.
+
+> **`git pull` deploy anahtarı:** betik `sudo -u raykonsept` ile çalıştığı için
+> GitHub erişimi o kullanıcının anahtarına bağlıdır (`~raykonsept/.ssh/id_rsa`).
+> Bu anahtar repoda **salt-okunur deploy key** olarak kayıtlı. Kayıtlı değilken
+> `git pull` `Permission denied (publickey)` veriyor, `set -e` betiği orada
+> durduruyor ve build hiç çalışmıyordu: kod sunucuya çekilmiş ama derlenmemiş
+> olarak kalıyor, canlı sessizce eski sürümü servis etmeye devam ediyordu.
+> root'un anahtarı (`~root/.ssh/id_rsa_github`) bu iş için kullanılmaz.
 
 > Dakikalık `git pull` cron'u **kaldırıldı** (yedeği: `/root/raykonsept-crontab.yedek`).
 > Geri konulmamalı: derlenmemiş kod çeker, çalışan uygulamayla derlenmiş çıktı uyuşmaz.

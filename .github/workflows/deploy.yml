@@ -1,0 +1,45 @@
+name: Deploy
+
+# main'e her push'ta sunucudaki deploy.sh çalışır.
+# Elle tetiklemek için Actions sekmesindeki "Run workflow" da kullanılabilir.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Aynı anda iki deploy çalışmasın: next build .next/lock alır ve ikincisi
+# "Unable to acquire lock" ile düşer. Yeni push gelirse öncekini iptal etmek
+# yerine sıraya alıyoruz — yarım deploy bırakmamak için.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sunucuda deploy.sh çalıştır
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          # next build birkaç dakika sürebiliyor; varsayılan 10dk sınırı yetmiyor.
+          command_timeout: 20m
+          script: |
+            set -e
+            cd /var/www/vhosts/raykonsept.com/mimar.raykonsept.com
+            sudo -u raykonsept ./deploy.sh
+
+      - name: Canlıyı doğrula
+        run: |
+          # Passenger yeniden başlarken ilk istek yavaş olabilir; birkaç kez dene.
+          for deneme in 1 2 3 4 5 6; do
+            kod=$(curl -s -o /dev/null -w '%{http_code}' -m 30 https://mimar.raykonsept.com/home || echo 000)
+            echo "deneme $deneme → HTTP $kod"
+            [ "$kod" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "Canlı 200 dönmedi — Passenger loglarına bak."
+          exit 1

@@ -10,7 +10,8 @@ Ray Konsept, mimarlık/iç mimarlık işi yapan bir firma. Mutfak, dolap, banyo 
 müşteriye satıp üretime devrediyor. Bu repo, o sürecin CRM'i.
 
 - **Stack:** Next.js 16 (App Router) + TypeScript + MUI 7, Vuexy admin şablonu üzerine
-- **Canlı:** https://mimar.raykonsept.com (Plesk sunucusu, `main`'e push → otomatik deploy)
+- **Canlı:** https://mimar.raykonsept.com (Plesk sunucusu; `main`'e push → GitHub Actions
+  `.github/workflows/deploy.yml` sunucuda `deploy.sh` çalıştırır)
 - **Faz 1 (şu an):** Ekranlar gerçekçi **mock veriyle** hazırlanıyor, müşteriye onaylatılacak.
   Veritabanı ve gerçek kimlik doğrulama henüz YOK.
 
