@@ -24,6 +24,22 @@ import Button from '@mui/material/Button'
 // Hook Imports
 import { useSettings } from '@core/hooks/useSettings'
 
+// Context Imports
+import { useAktifKullanici } from '@/contexts/rolContext'
+
+// Data Imports
+import { rolEtiketleri } from '@/data/kullanicilar'
+
+// Vuexy'nin stok avatar PNG'si lila zeminliydi; marka renginde baş harf kullanılıyor.
+const basHarfler = (ad: string) =>
+  ad
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(parca => parca[0])
+    .join('')
+    .toLocaleUpperCase('tr-TR')
+
 // Styled component for badge content
 const BadgeContentSpan = styled('span')({
   width: 8,
@@ -45,6 +61,7 @@ const UserDropdown = () => {
   const router = useRouter()
 
   const { settings } = useSettings()
+  const { aktifKullanici } = useAktifKullanici()
 
   const handleDropdownOpen = () => {
     !open ? setOpen(true) : setOpen(false)
@@ -78,11 +95,18 @@ const UserDropdown = () => {
       >
         <Avatar
           ref={anchorRef}
-          alt='John Doe'
-          src='/images/avatars/1.png'
+          alt={aktifKullanici.ad}
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
-        />
+          sx={{
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+            fontSize: '0.9375rem',
+            fontWeight: 500
+          }}
+        >
+          {basHarfler(aktifKullanici.ad)}
+        </Avatar>
       </Badge>
       <Popper
         open={open}
@@ -103,12 +127,17 @@ const UserDropdown = () => {
               <ClickAwayListener onClickAway={e => handleDropdownClose(e as MouseEvent | TouchEvent)}>
                 <MenuList>
                   <div className='flex items-center plb-2 pli-6 gap-2' tabIndex={-1}>
-                    <Avatar alt='John Doe' src='/images/avatars/1.png' />
+                    <Avatar
+                      alt={aktifKullanici.ad}
+                      sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', fontSize: '0.9375rem' }}
+                    >
+                      {basHarfler(aktifKullanici.ad)}
+                    </Avatar>
                     <div className='flex items-start flex-col'>
                       <Typography className='font-medium' color='text.primary'>
-                        John Doe
+                        {aktifKullanici.ad}
                       </Typography>
-                      <Typography variant='caption'>admin@vuexy.com</Typography>
+                      <Typography variant='caption'>{rolEtiketleri[aktifKullanici.rol]}</Typography>
                     </div>
                   </div>
                   <Divider className='mlb-1' />

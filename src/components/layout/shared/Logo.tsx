@@ -1,9 +1,5 @@
 'use client'
 
-// React Imports
-import { useEffect, useRef } from 'react'
-import type { CSSProperties } from 'react'
-
 // Third-party Imports
 import styled from '@emotion/styled'
 
@@ -11,78 +7,46 @@ import styled from '@emotion/styled'
 import type { VerticalNavContextProps } from '@menu/contexts/verticalNavContext'
 
 // Component Imports
-import VuexyLogo from '@core/svg/Logo'
-
-// Config Imports
-import themeConfig from '@configs/themeConfig'
+import LogoWordmark from '@core/svg/LogoWordmark'
 
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
 import { useSettings } from '@core/hooks/useSettings'
 
-type LogoTextProps = {
-  isHovered?: VerticalNavContextProps['isHovered']
+type WrapperProps = {
   isCollapsed?: VerticalNavContextProps['isCollapsed']
-  transitionDuration?: VerticalNavContextProps['transitionDuration']
+  isHovered?: VerticalNavContextProps['isHovered']
   isBreakpointReached?: VerticalNavContextProps['isBreakpointReached']
-  color?: CSSProperties['color']
+  transitionDuration?: VerticalNavContextProps['transitionDuration']
 }
 
-const LogoText = styled.span<LogoTextProps>`
-  color: ${({ color }) => color ?? 'var(--mui-palette-text-primary)'};
-  font-size: 1.375rem;
-  line-height: 1.09091;
-  font-weight: 700;
-  letter-spacing: 0.25px;
-  transition: ${({ transitionDuration }) =>
-    `margin-inline-start ${transitionDuration}ms ease-in-out, opacity ${transitionDuration}ms ease-in-out`};
-
-  ${({ isHovered, isCollapsed, isBreakpointReached }) =>
-    !isBreakpointReached && isCollapsed && !isHovered
-      ? 'opacity: 0; margin-inline-start: 0;'
-      : 'opacity: 1; margin-inline-start: 12px;'}
+// Wordmark tek parçadır: "RAYKONSEPT INTERIOR" yazısı SVG'nin içinde vektör olarak
+// çizilidir, bu yüzden yanına amblem ya da metin konmaz.
+// Daraltılmış menüde wordmark'ın tam boyu sığmaz; yükseklik küçültülerek sığdırılır.
+const Wrapper = styled.div<WrapperProps>`
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: var(--mui-palette-text-primary);
+  font-size: ${({ isCollapsed, isHovered, isBreakpointReached }) =>
+    !isBreakpointReached && isCollapsed && !isHovered ? '12px' : '30px'};
+  transition: ${({ transitionDuration }) => `font-size ${transitionDuration}ms ease-in-out`};
 `
 
-const Logo = ({ color }: { color?: CSSProperties['color'] }) => {
-  // Refs
-  const logoTextRef = useRef<HTMLSpanElement>(null)
-
+const Logo = () => {
   // Hooks
-  const { isHovered, transitionDuration, isBreakpointReached } = useVerticalNav()
+  const { isHovered, isCollapsed, isBreakpointReached, transitionDuration } = useVerticalNav()
   const { settings } = useSettings()
 
-  // Vars
-  const { layout } = settings
-
-  useEffect(() => {
-    if (layout !== 'collapsed') {
-      return
-    }
-
-    if (logoTextRef && logoTextRef.current) {
-      if (!isBreakpointReached && layout === 'collapsed' && !isHovered) {
-        logoTextRef.current?.classList.add('hidden')
-      } else {
-        logoTextRef.current.classList.remove('hidden')
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHovered, layout, isBreakpointReached])
-
   return (
-    <div className='flex items-center'>
-      <VuexyLogo className='text-2xl text-primary' />
-      <LogoText
-        color={color}
-        ref={logoTextRef}
-        isHovered={isHovered}
-        isCollapsed={layout === 'collapsed'}
-        transitionDuration={transitionDuration}
-        isBreakpointReached={isBreakpointReached}
-      >
-        {themeConfig.templateName}
-      </LogoText>
-    </div>
+    <Wrapper
+      isHovered={isHovered}
+      isCollapsed={settings.layout === 'collapsed' || isCollapsed}
+      isBreakpointReached={isBreakpointReached}
+      transitionDuration={transitionDuration}
+    >
+      <LogoWordmark aria-label='Ray Konsept' role='img' />
+    </Wrapper>
   )
 }
 
