@@ -20,6 +20,7 @@ import OzetKart from './OzetKart'
 import PipelineDagilimi from './PipelineDagilimi'
 import ProjeListeKarti from './ProjeListeKarti'
 import UretimOzetiKarti from './UretimOzetiKarti'
+import WhatsappRekabetKarti from './WhatsappRekabetKarti'
 import YaklasanRandevularKarti from './YaklasanRandevularKarti'
 
 // Context Imports
@@ -30,7 +31,7 @@ import { rolEtiketleri } from '@/data/kullanicilar'
 
 // Util Imports
 import { paraYaz } from '@/utils/bicim'
-import { fiyatGorebilir } from '@/utils/yetki'
+import { fiyatGorebilir, whatsappGorebilir } from '@/utils/yetki'
 import {
   aktifProjeSayisi,
   aylikSatis,
@@ -51,6 +52,7 @@ import {
   yeniTalepSayisi,
   yuzdeDegisim
 } from '@/utils/ozet'
+import { aylikCevapSiralamasi, ayAnahtari, cevapsizTalepAdedi, motivasyonMesaji } from '@/utils/whatsappOzet'
 
 const Panel = () => {
   // Context
@@ -80,6 +82,14 @@ const Panel = () => {
       uretimdekiler: kullanicininProjeleri(aktifKullanici).filter(proje => uretimdeMi(proje.durum))
     }),
     [aktifKullanici]
+  )
+
+  const ay = useMemo(() => ayAnahtari(new Date().toISOString()), [])
+  const whatsappSiralama = useMemo(() => aylikCevapSiralamasi(ay), [ay])
+  const whatsappCevapsiz = useMemo(() => cevapsizTalepAdedi(), [])
+  const whatsappMotivasyon = useMemo(
+    () => motivasyonMesaji(whatsappSiralama, aktifKullanici.id),
+    [whatsappSiralama, aktifKullanici.id]
   )
 
   const karsilama = (
@@ -233,6 +243,17 @@ const Panel = () => {
       <Grid size={{ xs: 12, lg: 6 }}>
         <EnCokIsYapanlar musteriler={ozet.enCokIs} fiyatGoster={fiyatAcik} />
       </Grid>
+
+      {whatsappGorebilir(aktifKullanici) && (
+        <Grid size={{ xs: 12, lg: 6 }}>
+          <WhatsappRekabetKarti
+            siralama={whatsappSiralama}
+            cevapsizSayi={whatsappCevapsiz}
+            motivasyon={whatsappMotivasyon}
+            kullaniciId={aktifKullanici.id}
+          />
+        </Grid>
+      )}
 
       <Grid size={{ xs: 12, lg: 6 }}>
         <ProjeListeKarti
